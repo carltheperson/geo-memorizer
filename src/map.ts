@@ -12,6 +12,8 @@ export class Map {
   private g = this.svg.append("g");
   private clickListener: null | ((id: string) => void) = null;
 
+  public idToLabelMappings: Record<string, string> = {};
+
   constructor() {
     this.g
       .append("path")
@@ -48,7 +50,10 @@ export class Map {
           allCountryData.find(
             (countryData) => countryData.iso_n3 === country.id
           ).name_long ?? "Name not found";
-        return name;
+
+        if (!this.idToLabelMappings) return "";
+
+        return this.idToLabelMappings[country.id];
       });
   }
 
