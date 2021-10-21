@@ -1,0 +1,15 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "prefer-arrow-callback": ["error", { "allowNamedFunctions": true }],
+    "func-style": ["error", "expression", { "allowArrowFunctions": true }],
+    "no-empty": 0
+  }
+}
