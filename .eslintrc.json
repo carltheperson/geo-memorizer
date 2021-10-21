@@ -10,6 +10,7 @@
   "rules": {
     "prefer-arrow-callback": ["error", { "allowNamedFunctions": true }],
     "func-style": ["error", "expression", { "allowArrowFunctions": true }],
-    "no-empty": 0
+    "no-empty": 0,
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }
