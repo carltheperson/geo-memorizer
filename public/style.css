@@ -12,7 +12,3 @@ body {
   stroke: black;
   stroke-width: 0.1px;
 }
-
-.country:hover {
-  fill: green;
-}

@@ -6,4 +6,5 @@ map.idToLabelMappings = { "840": "us" };
 
 map.getSelectedCountryId().then((id) => {
   console.log(id);
+  map.idToColorMappings = { [id]: "red" };
 });
