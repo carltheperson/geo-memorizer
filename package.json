@@ -12,6 +12,7 @@
     "url": "git+https://github.com/carltheperson/geo-memoriser.git"
   },
   "devDependencies": {
+    "@types/d3": "^7.1.0",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.5",
     "babel-core": "^6.26.3",
@@ -34,5 +35,9 @@
   "bugs": {
     "url": "https://github.com/carltheperson/geo-memoriser/issues"
   },
-  "homepage": "https://github.com/carltheperson/geo-memoriser#readme"
+  "homepage": "https://github.com/carltheperson/geo-memoriser#readme",
+  "dependencies": {
+    "d3": "^7.1.1",
+    "topojson-client": "^3.1.0"
+  }
 }
