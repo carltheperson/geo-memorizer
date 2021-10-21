@@ -10,6 +10,7 @@ export class Map {
   private projection = geoNaturalEarth1();
   private pathGenerator: any = geoPath().projection(this.projection);
   private g = this.svg.append("g");
+  private clickListener: null | ((id: string) => void) = null;
 
   constructor() {
     this.g
@@ -29,8 +30,6 @@ export class Map {
     const allCountryData: any[] = await tsv(MAP_DATA_URL);
     const countries = feature(allTopoData, allTopoData.objects.countries);
 
-    console.log(allCountryData);
-
     this.g
       .selectAll("path")
       .data(countries.features)
@@ -38,13 +37,24 @@ export class Map {
       .append("path")
       .attr("class", "country")
       .attr("d", this.pathGenerator)
+      .on("click", (click) => {
+        if (this.clickListener) {
+          this.clickListener(click.target.__data__.id);
+        }
+      })
       .append("title")
       .text((country: any) => {
         const name =
           allCountryData.find(
             (countryData) => countryData.iso_n3 === country.id
-          ).name ?? "Name not found";
+          ).name_long ?? "Name not found";
         return name;
       });
+  }
+
+  public getSelectedCountryId(): Promise<string> {
+    return new Promise((resolve) => {
+      this.clickListener = resolve;
+    });
   }
 }
