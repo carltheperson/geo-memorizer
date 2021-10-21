@@ -1,5 +1,6 @@
 import { zoom } from "d3-zoom";
-import { select, json, geoPath, geoNaturalEarth1 } from "d3";
+import { MAP_DATA_URL, TOPO_MAP_DATA_URL } from "./constants";
+import { select, json, geoPath, geoNaturalEarth1, tsv } from "d3";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { feature } from "topojson-client";
@@ -23,23 +24,27 @@ export class Map {
     );
   }
 
-  public drawMap(): void {
-    json("https://unpkg.com/world-atlas@1.1.4/world/50m.json").then(
-      (data: any) => {
-        const countries = feature(data, data.objects.countries);
-        this.g
-          .selectAll("path")
-          .data(countries.features)
-          .enter()
-          .append("path")
-          .attr("class", "country")
-          .attr("d", this.pathGenerator)
-          .append("title")
-          .text(() => {
-            console.log("hello");
-            return "test";
-          });
-      }
-    );
+  public async drawMap() {
+    const allTopoData: any = await json(TOPO_MAP_DATA_URL);
+    const allCountryData: any[] = await tsv(MAP_DATA_URL);
+    const countries = feature(allTopoData, allTopoData.objects.countries);
+
+    console.log(allCountryData);
+
+    this.g
+      .selectAll("path")
+      .data(countries.features)
+      .enter()
+      .append("path")
+      .attr("class", "country")
+      .attr("d", this.pathGenerator)
+      .append("title")
+      .text((country: any) => {
+        const name =
+          allCountryData.find(
+            (countryData) => countryData.iso_n3 === country.id
+          ).name ?? "Name not found";
+        return name;
+      });
   }
 }
