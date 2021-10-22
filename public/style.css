@@ -7,6 +7,12 @@ body {
   fill: #4242e4;
 }
 
+svg {
+  width: 100vw;
+  height: 100vh;
+  background-color: lightblue;
+}
+
 .country {
   fill: lightgreen;
   stroke: black;

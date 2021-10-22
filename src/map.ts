@@ -15,6 +15,10 @@ export class Map {
   private currentLabeledCountryIds: string[] = [];
 
   constructor() {
+    this.projection.translate([
+      document.documentElement.clientWidth / 2,
+      document.documentElement.clientHeight / 2,
+    ]);
     this.g
       .append("path")
       .attr("class", "sphere")
