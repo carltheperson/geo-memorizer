@@ -1,5 +1,5 @@
 import { zoom } from "d3-zoom";
-import { TOPO_MAP_DATA_URL } from "./constants";
+import { DEFAULT_COLOR, TOPO_MAP_DATA_URL } from "./constants";
 import { select, json, geoPath, geoNaturalEarth1 } from "d3";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -11,8 +11,8 @@ export class Map {
   private pathGenerator: any = geoPath().projection(this.projection);
   private g = this.svg.append("g");
   private clickListener: null | ((id: string) => void) = null;
-
-  public idToLabelMappings: Record<string, string> = {};
+  private currentColoredCountryIds: string[] = [];
+  private currentLabeledCountryIds: string[] = [];
 
   constructor() {
     this.g
@@ -45,12 +45,6 @@ export class Map {
         if (this.clickListener) {
           this.clickListener(click.target.__data__.id);
         }
-      })
-      .append("title")
-      .text((country: any) => {
-        if (!this.idToLabelMappings) return "";
-
-        return this.idToLabelMappings[country.id];
       });
   }
 
@@ -60,11 +54,42 @@ export class Map {
     });
   }
 
+  // TODO reset the others
+
+  private getSvgPath(id: string) {
+    const svgPath = document.getElementById("country-" + id);
+    if (!svgPath) throw new Error("Can't find svg element");
+    return svgPath;
+  }
+
   set idToColorMappings(mappings: Record<string, string>) {
+    this.currentColoredCountryIds.forEach((id) => {
+      const svgPath = this.getSvgPath(id);
+      svgPath.style.fill = DEFAULT_COLOR;
+    });
     Object.entries(mappings).forEach(([id, color]) => {
-      const svgPath = document.getElementById("country-" + id);
-      if (!svgPath) throw new Error("Can't find svg element");
+      const svgPath = this.getSvgPath(id);
       svgPath.style.fill = color;
     });
+    this.currentColoredCountryIds = Object.keys(mappings);
+  }
+
+  set idToLabelMappings(mappings: Record<string, string>) {
+    this.currentLabeledCountryIds.forEach((id) => {
+      const svgPath = this.getSvgPath(id);
+      const title = document.getElementById(id + "-title");
+      if (title) svgPath.removeChild(title);
+    });
+    Object.entries(mappings).forEach(([id, title_]) => {
+      const svgPath = this.getSvgPath(id);
+      const title: any = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "title"
+      );
+      title.textContent = title_;
+      title.id = id + "-title";
+      svgPath.appendChild(title);
+    });
+    this.currentLabeledCountryIds = Object.keys(mappings);
   }
 }
