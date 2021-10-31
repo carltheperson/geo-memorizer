@@ -30,7 +30,7 @@ map.drawMap();
 const drawAllInformationForCountry = (country: Country) => {
   const flag = getFlag(country);
 
-  const screen = document.getElementById("prompt")!;
+  const screen = document.getElementById("prompt") as HTMLDivElement;
   screen.innerHTML = `
   <h4>Country name</h4>
   ${country.name_long}
@@ -50,7 +50,7 @@ const drawAllInformationForCountry = (country: Country) => {
 
 export const waitForUserToConfirmWithButton = (): Promise<void> => {
   return new Promise((resolve) => {
-    const button = document.getElementById("button")!;
+    const button = document.getElementById("button") as HTMLButtonElement;
     button.addEventListener("click", () => {
       resolve();
     });
@@ -76,7 +76,7 @@ const drawMemorizerPrompt = (
     };
   }
 
-  const screen = document.getElementById("prompt")!;
+  const screen = document.getElementById("prompt") as HTMLDivElement;
   screen.innerHTML = `
   <h4>Country name</h4>
   ${
@@ -120,30 +120,21 @@ const BUFFER = 4;
 const OPTION_AMOUNT = 4;
 
 const runGameLoop = async () => {
-  let displayed = 0;
-  let geussed = 0;
-  const countriesDisplayed: Country[] = [];
+  const countriesToBeGuessed: Country[] = [];
   const countries: Country[] = (await tsv(MAP_DATA_URL)) as any[];
   while (true) {
-    console.log(displayed, geussed);
-    if (displayed < BUFFER || displayed - BUFFER == geussed) {
+    console.log("test");
+    if (countriesToBeGuessed.length < BUFFER) {
       const country = getRandomCountry(countries);
       drawAllInformationForCountry(country);
       await waitForUserToConfirmWithButton();
-      countriesDisplayed.push(country);
-      displayed += 1;
+      countriesToBeGuessed.push(country);
     } else {
       map.idToColorMappings = {};
-      const country = countriesDisplayed[displayed - BUFFER + geussed];
-      console.log("Guess mode! Find ", country.name_long);
-
+      const country = countriesToBeGuessed[0];
       const randomCountries = getNRandomCountries(countries, OPTION_AMOUNT);
       const correctCountryI = getRandomNumber(OPTION_AMOUNT);
       randomCountries[correctCountryI] = country;
-      console.log(
-        "Options",
-        randomCountries.map((c) => c.name_long)
-      );
 
       const wayToGuess = getRandomWayToGuess();
       drawMemorizerPrompt(randomCountries, country, wayToGuess);
@@ -154,7 +145,8 @@ const runGameLoop = async () => {
       } else {
         console.log("NOT CORRECT", country);
       }
-      geussed += 1;
+
+      countriesToBeGuessed.shift();
     }
   }
 };

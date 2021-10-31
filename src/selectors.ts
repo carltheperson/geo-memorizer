@@ -27,7 +27,7 @@ export const flagSelector = (options: Country[]) => {
 export const getSelectedName = async () => {
   await waitForUserToConfirmWithButton();
   const nameSelector = document.getElementById(
-    "flag-selector"
+    "name-selector"
   ) as HTMLInputElement;
   const countryId = nameSelector.value;
   return countryId;
