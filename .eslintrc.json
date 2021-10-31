@@ -12,6 +12,7 @@
     "func-style": ["error", "expression", { "allowArrowFunctions": true }],
     "no-empty": 0,
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off"
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "no-constant-condition": "off"
   }
 }

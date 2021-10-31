@@ -58,11 +58,9 @@ export class Map {
     });
   }
 
-  // TODO reset the others
-
   private getSvgPath(id: string) {
     const svgPath = document.getElementById("country-" + id);
-    if (!svgPath) throw new Error("Can't find svg element");
+    if (!svgPath) throw new Error("Can't find svg element with id " + id);
     return svgPath;
   }
 

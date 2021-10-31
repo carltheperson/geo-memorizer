@@ -1,6 +1,7 @@
 body {
   margin: 0px;
   overflow: hidden;
+  font-family: Verdana, sans-serif;
 }
 
 .sphere {
@@ -17,4 +18,28 @@ svg {
   fill: lightgreen;
   stroke: black;
   stroke-width: 0.1px;
+}
+
+div {
+  position: fixed;
+  right: 0;
+  background-color: lightcoral;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px;
+  width: 400px;
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+}
+
+h4 {
+  margin-bottom: 5px;
+}
+
+.flag {
+  font-size: 60px;
+  margin: 0;
 }
