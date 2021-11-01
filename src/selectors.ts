@@ -42,9 +42,23 @@ export const getSelectedFlag = async () => {
   return countryId;
 };
 
-export const getSelectedLocation = async (map: Map) => {
-  const countryId = await map.getSelectedCountryId();
-  map.idToColorMappings = { [countryId]: "yellow" };
-  await waitForUserToConfirmWithButton();
-  return countryId;
+export const getSelectedLocation = (map: Map): Promise<string> => {
+  return new Promise((resolve) => {
+    let countryId = "";
+    let isConfirmed = false;
+    waitForUserToConfirmWithButton().then(() => {
+      isConfirmed = true;
+      map.idToColorMappings = {};
+      resolve(countryId);
+    });
+
+    map.getSelectedCountryId().then(async (id) => {
+      countryId = id;
+      map.idToColorMappings = { [countryId]: "yellow" };
+      while (!isConfirmed) {
+        map.idToColorMappings = { [countryId]: "yellow" };
+        countryId = await map.getSelectedCountryId();
+      }
+    });
+  });
 };

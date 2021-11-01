@@ -123,7 +123,6 @@ const runGameLoop = async () => {
   const countriesToBeGuessed: Country[] = [];
   const countries: Country[] = (await tsv(MAP_DATA_URL)) as any[];
   while (true) {
-    console.log("test");
     if (countriesToBeGuessed.length < BUFFER) {
       const country = getRandomCountry(countries);
       drawAllInformationForCountry(country);
