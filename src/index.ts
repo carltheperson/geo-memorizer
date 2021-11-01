@@ -15,6 +15,7 @@ import {
   getNRandomCountriesWithOneCorrect,
   getRandomCountry,
   getRandomWayToGuess,
+  setScreenMessage,
 } from "./utils";
 
 export interface Country {
@@ -120,16 +121,24 @@ const getSubmittedGuessedCountryId = async (wayToGuess: WayToGuess) => {
 const BUFFER = 4;
 const OPTION_AMOUNT = 4;
 
+const getPointsMessage = (points: number) => {
+  if (points === 1) return "1 point";
+  return `${points} points`;
+};
+
 const runGameLoop = async () => {
   const countriesToBeGuessed: Country[] = [];
   const countries: Country[] = (await tsv(MAP_DATA_URL)) as any[];
+  let points = 0;
   while (true) {
     if (countriesToBeGuessed.length < BUFFER) {
+      setScreenMessage(`${getPointsMessage(points)} - memory mode`);
       const country = getRandomCountry(countries);
       drawAllInformationForCountry(country);
       await waitForUserToConfirmWithButton();
       countriesToBeGuessed.push(country);
     } else {
+      setScreenMessage(`${getPointsMessage(points)} - recall mode`);
       changeScreenColor("#dcfc83");
       map.idToColorMappings = {};
       const country = countriesToBeGuessed[0];
@@ -144,9 +153,11 @@ const runGameLoop = async () => {
 
       const guess = await getSubmittedGuessedCountryId(wayToGuess);
       if (guess == country.iso_n3) {
-        await flashScreenColor("#30e81c", 750);
+        flashScreenColor("#30e81c", 750);
+        points += 1;
       } else {
-        await flashScreenColor("red", 750);
+        flashScreenColor("red", 750);
+        points = 0;
       }
 
       countriesToBeGuessed.shift();

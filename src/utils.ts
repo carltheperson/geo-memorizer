@@ -51,3 +51,11 @@ export const flashScreenColor = (color: string, ms: number) =>
       resolve(null);
     }, ms);
   });
+
+const screenMessage = document.getElementById(
+  "screen-message"
+) as HTMLParagraphElement;
+
+export const setScreenMessage = (text: string) => {
+  screenMessage.innerText = text;
+};

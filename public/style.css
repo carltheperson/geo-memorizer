@@ -24,7 +24,7 @@ svg {
   position: fixed;
   right: 0;
   background-color: lavender;
-  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.5);
   padding: 10px;
   border-radius: 5px;
   margin: 5px;
@@ -43,4 +43,9 @@ h4 {
 .flag {
   font-size: 60px;
   margin: 0;
+}
+
+#screen-message {
+  text-align: center;
+  font-style: italic;
 }
