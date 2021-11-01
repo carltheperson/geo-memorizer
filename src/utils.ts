@@ -1,10 +1,23 @@
 import { countryCode } from "emoji-flags";
 import { Country, WayToGuess } from ".";
-import { PROMPT_DEFAULT_COLOR } from "./constants";
+import { tsv } from "d3-fetch";
+import {
+  COUNTRY_IDS_IN_MAP_DATA_BUT_NOT_ON_MAP,
+  EXTRA_NAME_TO_FLAG_MAPPINGS,
+  MAP_DATA_URL,
+  NAME_RENAMING_MAPPINGS,
+  NO_FLAG_SUBSTITUTE,
+  PROMPT_DEFAULT_COLOR,
+} from "./constants";
 
 export const getFlag = (country: Country) => {
   const emojiCountry = countryCode(country.iso_a2);
-  const emoji = emojiCountry ? emojiCountry.emoji : "NO FLAG";
+  const emoji = emojiCountry ? emojiCountry.emoji : NO_FLAG_SUBSTITUTE;
+  if (emoji === NO_FLAG_SUBSTITUTE) {
+    if (EXTRA_NAME_TO_FLAG_MAPPINGS[country.name_long]) {
+      return EXTRA_NAME_TO_FLAG_MAPPINGS[country.name_long];
+    }
+  }
   return emoji;
 };
 
@@ -58,4 +71,35 @@ const screenMessage = document.getElementById(
 
 export const setScreenMessage = (text: string) => {
   screenMessage.innerText = text;
+};
+
+export const timeout = (ms: number) =>
+  new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(null);
+    }, ms)
+  );
+
+export const getListOfCountries = async (): Promise<Country[]> => {
+  const countries: Country[] = (await tsv(MAP_DATA_URL)) as any[];
+
+  return countries.reduce<Country[]>((acc, country) => {
+    if (COUNTRY_IDS_IN_MAP_DATA_BUT_NOT_ON_MAP.includes(country.iso_n3)) {
+      return acc;
+    }
+
+    const newCountry = {
+      ...country,
+      name_long: NAME_RENAMING_MAPPINGS[country.name_long]
+        ? (NAME_RENAMING_MAPPINGS[country.name_long] as string)
+        : country.name_long,
+    };
+
+    return [...acc, newCountry];
+  }, []);
+};
+
+export const getPointsMessage = (points: number) => {
+  if (points === 1) return "1 point";
+  return `${points} points`;
 };

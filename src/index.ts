@@ -1,5 +1,3 @@
-import { tsv } from "d3-fetch";
-import { MAP_DATA_URL } from "./constants";
 import { Map } from "./map";
 import {
   flagSelector,
@@ -12,7 +10,9 @@ import {
   changeScreenColor,
   flashScreenColor,
   getFlag,
+  getListOfCountries,
   getNRandomCountriesWithOneCorrect,
+  getPointsMessage,
   getRandomCountry,
   getRandomWayToGuess,
   setScreenMessage,
@@ -121,14 +121,9 @@ const getSubmittedGuessedCountryId = async (wayToGuess: WayToGuess) => {
 const BUFFER = 4;
 const OPTION_AMOUNT = 4;
 
-const getPointsMessage = (points: number) => {
-  if (points === 1) return "1 point";
-  return `${points} points`;
-};
-
 const runGameLoop = async () => {
   const countriesToBeGuessed: Country[] = [];
-  const countries: Country[] = (await tsv(MAP_DATA_URL)) as any[];
+  const countries = await getListOfCountries();
   let points = 0;
   while (true) {
     if (countriesToBeGuessed.length < BUFFER) {
@@ -153,10 +148,10 @@ const runGameLoop = async () => {
 
       const guess = await getSubmittedGuessedCountryId(wayToGuess);
       if (guess == country.iso_n3) {
-        flashScreenColor("#30e81c", 750);
+        await flashScreenColor("#30e81c", 750);
         points += 1;
       } else {
-        flashScreenColor("red", 750);
+        await flashScreenColor("red", 750);
         points = 0;
       }
 
