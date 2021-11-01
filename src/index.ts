@@ -9,10 +9,11 @@ import {
   nameSelector,
 } from "./selectors";
 import {
+  changeScreenColor,
+  flashScreenColor,
   getFlag,
-  getNRandomCountries,
+  getNRandomCountriesWithOneCorrect,
   getRandomCountry,
-  getRandomNumber,
   getRandomWayToGuess,
 } from "./utils";
 
@@ -129,20 +130,23 @@ const runGameLoop = async () => {
       await waitForUserToConfirmWithButton();
       countriesToBeGuessed.push(country);
     } else {
+      changeScreenColor("#dcfc83");
       map.idToColorMappings = {};
       const country = countriesToBeGuessed[0];
-      const randomCountries = getNRandomCountries(countries, OPTION_AMOUNT);
-      const correctCountryI = getRandomNumber(OPTION_AMOUNT);
-      randomCountries[correctCountryI] = country;
+      const randomCountries = getNRandomCountriesWithOneCorrect(
+        countries,
+        OPTION_AMOUNT,
+        country
+      );
 
       const wayToGuess = getRandomWayToGuess();
       drawMemorizerPrompt(randomCountries, country, wayToGuess);
 
       const guess = await getSubmittedGuessedCountryId(wayToGuess);
       if (guess == country.iso_n3) {
-        console.log("CORRECT");
+        await flashScreenColor("#30e81c", 750);
       } else {
-        console.log("NOT CORRECT", country);
+        await flashScreenColor("red", 750);
       }
 
       countriesToBeGuessed.shift();

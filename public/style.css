@@ -20,10 +20,11 @@ svg {
   stroke-width: 0.1px;
 }
 
-div {
+#screen {
   position: fixed;
   right: 0;
-  background-color: lightcoral;
+  background-color: lavender;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
   padding: 10px;
   border-radius: 5px;
   margin: 5px;
