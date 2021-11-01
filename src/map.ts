@@ -13,6 +13,7 @@ export class Map {
   private clickListener: null | ((id: string) => void) = null;
   private currentColoredCountryIds: string[] = [];
   private currentLabeledCountryIds: string[] = [];
+  private onLoadCallback: (() => void) | null = null;
 
   constructor() {
     this.projection.translate([
@@ -29,6 +30,10 @@ export class Map {
         this.g.attr("transform", event.transform);
       }) as any
     );
+  }
+
+  public onLoad(callback: () => void) {
+    this.onLoadCallback = callback;
   }
 
   public async drawMap() {
@@ -48,6 +53,12 @@ export class Map {
       .on("click", (click) => {
         if (this.clickListener) {
           this.clickListener(click.target.__data__.id);
+        }
+      })
+      .property("", () => {
+        if (this.onLoadCallback) {
+          this.onLoadCallback();
+          this.onLoadCallback = null;
         }
       });
   }

@@ -150,6 +150,6 @@ const runGameLoop = async () => {
   }
 };
 
-setTimeout(() => {
+map.onLoad(() => {
   runGameLoop();
-}, 1000);
+});
