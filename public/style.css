@@ -31,6 +31,16 @@ svg {
   width: 400px;
 }
 
+@media only screen and (max-width: 600px) {
+  #screen {
+    width: 100%;
+    position: unset;
+  }
+  h1 {
+    font-size: 20px;
+  }
+}
+
 a {
   position: fixed;
   right: 0;
