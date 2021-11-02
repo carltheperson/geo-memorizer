@@ -36,7 +36,8 @@ a {
   right: 0;
   bottom: 0;
   background-color: lavender;
-  padding: 6px;
+  opacity: 0.75;
+  padding: 4px;
   border-radius: 5px;
 }
 
