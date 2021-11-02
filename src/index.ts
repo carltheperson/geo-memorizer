@@ -128,7 +128,8 @@ const runGameLoop = async () => {
   while (true) {
     if (countriesToBeGuessed.length < BUFFER) {
       setScreenMessage(`${getPointsMessage(points)} - memory mode`);
-      const country = getRandomCountry(countries);
+      // const country = getRandomCountry(countries);
+      const country = countries.find((c) => c.name_long === "Denmark")!;
       drawAllInformationForCountry(country);
       await waitForUserToConfirmWithButton();
       countriesToBeGuessed.push(country);
