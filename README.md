@@ -1,6 +1,8 @@
 <h1 align="center">Geo memorizer</h1>
 <p align="center">A game to help you learn the name, flag, and location of every country</p>
 
+![preview](./preview.png)
+
 # How to play
 
 You pan around by clicking and dragging. You zoom by scrolling.
