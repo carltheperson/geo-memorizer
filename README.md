@@ -5,6 +5,8 @@
 
 # How to play
 
+You can play the game [here](https://geo-memorizer.web.app/). It works best in Chrome.
+
 You pan around by clicking and dragging. You zoom by scrolling.
 
 There are two modes in the game. _Memory mode_ and _recall mode_. In memory mode, you are supposed to remember all three facts (name, flag, and location) presented about the country. Later in recall mode, you will be asked to recall **one** of the facts. If you recall correctly, you get a point. If you don't, you lose all your points.
