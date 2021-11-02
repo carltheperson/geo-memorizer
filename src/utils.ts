@@ -3,9 +3,9 @@ import { Country, WayToGuess } from ".";
 import { tsv } from "d3-fetch";
 import {
   COUNTRY_IDS_IN_MAP_DATA_BUT_NOT_ON_MAP,
+  COUNTRY_NAMES_IN_MAP_DATA_BUT_NOT_ON_MAP,
   EXTRA_NAME_TO_FLAG_MAPPINGS,
   MAP_DATA_URL,
-  NAME_RENAMING_MAPPINGS,
   NO_FLAG_SUBSTITUTE,
   PROMPT_DEFAULT_COLOR,
 } from "./constants";
@@ -84,18 +84,14 @@ export const getListOfCountries = async (): Promise<Country[]> => {
   const countries: Country[] = (await tsv(MAP_DATA_URL)) as any[];
 
   return countries.reduce<Country[]>((acc, country) => {
-    if (COUNTRY_IDS_IN_MAP_DATA_BUT_NOT_ON_MAP.includes(country.iso_n3)) {
+    if (
+      COUNTRY_IDS_IN_MAP_DATA_BUT_NOT_ON_MAP.includes(country.iso_n3) ||
+      COUNTRY_NAMES_IN_MAP_DATA_BUT_NOT_ON_MAP.includes(country.name_long)
+    ) {
       return acc;
     }
 
-    const newCountry = {
-      ...country,
-      name_long: NAME_RENAMING_MAPPINGS[country.name_long]
-        ? (NAME_RENAMING_MAPPINGS[country.name_long] as string)
-        : country.name_long,
-    };
-
-    return [...acc, newCountry];
+    return [...acc, country];
   }, []);
 };
 

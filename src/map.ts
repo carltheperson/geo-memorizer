@@ -1,5 +1,9 @@
 import { zoom } from "d3-zoom";
-import { DEFAULT_COLOR, TOPO_MAP_DATA_URL } from "./constants";
+import {
+  DEFAULT_COLOR,
+  PATH_INDEXES_TO_REMOVE,
+  TOPO_MAP_DATA_URL,
+} from "./constants";
 import { select, json, geoPath, geoNaturalEarth1 } from "d3";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -39,14 +43,16 @@ export class Map {
   public async drawMap() {
     const allTopoData: any = await json(TOPO_MAP_DATA_URL);
     const countries = feature(allTopoData, allTopoData.objects.countries);
-
     this.g
       .selectAll("path")
       .data(countries.features)
       .enter()
       .append("path")
       .attr("class", "country")
-      .attr("id", (country: any) => {
+      .attr("id", (country: any, i: number) => {
+        if (PATH_INDEXES_TO_REMOVE.includes(i)) {
+          return "";
+        }
         return "country-" + country.id;
       })
       .attr("d", this.pathGenerator)
