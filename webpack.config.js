@@ -41,7 +41,10 @@ module.exports = {
       filename: "index.html",
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "./public/favicon.ico" }],
+      patterns: [
+        { from: "./public/favicon.ico" },
+        { from: "./public/style.css" },
+      ],
     }),
   ],
 };
