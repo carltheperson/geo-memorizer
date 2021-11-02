@@ -7,6 +7,12 @@ There are two modes in the game. _Memory mode_ and _recall mode_. In memory mode
 
 ![modes](./modes-preview.png)
 
+# Thanks to
+
+- Contributors and maintainers of [d3.js](https://github.com/d3/d3) and [d3-geo](https://github.com/d3/d3-geo)
+- [naturalearthdata.com](https://www.naturalearthdata.com/) and whoever put its data on [UNPKG](https://unpkg.com/browse/world-atlas@2.0.2/README.md) in TopoJSON
+- Curran Kelleher for his awesome [Youtube video](https://www.youtube.com/watch?v=Qw6uAg3EO64) about creating a world map with d3
+
 # License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
