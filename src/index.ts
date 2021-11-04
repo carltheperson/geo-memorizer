@@ -10,6 +10,7 @@ import {
   changeScreenColor,
   flashScreenColor,
   getFlag,
+  getLabelMappingsForAllCountries,
   getListOfCountries,
   getNRandomCountriesWithOneCorrect,
   getPointsMessage,
@@ -47,7 +48,6 @@ const drawAllInformationForCountry = (country: Country) => {
   `;
 
   map.idToColorMappings = { [country.iso_n3]: "red" };
-  map.idToLabelMappings = { [country.iso_n3]: `${flag} ${country.name_long}` };
 };
 
 export const waitForUserToConfirmWithButton = (): Promise<void> => {
@@ -129,6 +129,7 @@ const runGameLoop = async () => {
     if (countriesToBeGuessed.length < BUFFER) {
       setScreenMessage(`${getPointsMessage(points)} - memory mode`);
       const country = getRandomCountry(countries);
+      map.idToLabelMappings = getLabelMappingsForAllCountries(countries);
       drawAllInformationForCountry(country);
       await waitForUserToConfirmWithButton();
       countriesToBeGuessed.push(country);
@@ -136,6 +137,7 @@ const runGameLoop = async () => {
       setScreenMessage(`${getPointsMessage(points)} - recall mode`);
       changeScreenColor("#dcfc83");
       map.idToColorMappings = {};
+      map.idToLabelMappings = {};
       const country = countriesToBeGuessed[0];
       const randomCountries = getNRandomCountriesWithOneCorrect(
         countries,

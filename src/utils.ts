@@ -99,3 +99,12 @@ export const getPointsMessage = (points: number) => {
   if (points === 1) return "1 point";
   return `${points} points`;
 };
+
+export const getLabelMappingsForAllCountries = (countries: Country[]) => {
+  return countries.reduce((mappings, country) => {
+    return {
+      ...mappings,
+      [country.iso_n3]: `${getFlag(country)} ${country.name_long}`,
+    };
+  }, {});
+};
