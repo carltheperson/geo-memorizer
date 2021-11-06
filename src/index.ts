@@ -1,3 +1,4 @@
+import { BUFFER, OPTION_AMOUNT } from "./constants";
 import { Map } from "./map";
 import {
   flagSelector,
@@ -117,9 +118,6 @@ const getSubmittedGuessedCountryId = async (wayToGuess: WayToGuess) => {
   }
   throw new Error(`Way to guess ${wayToGuess} is not supported`);
 };
-
-const BUFFER = 4;
-const OPTION_AMOUNT = 4;
 
 const runGameLoop = async () => {
   const countriesToBeGuessed: Country[] = [];

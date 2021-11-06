@@ -14,3 +14,5 @@ export const EXTRA_NAME_TO_FLAG_MAPPINGS: Record<string, string | undefined> = {
   Kosovo: "🇽🇰",
 };
 export const NO_FLAG_SUBSTITUTE = "No flag";
+export const BUFFER = 4;
+export const OPTION_AMOUNT = 4;
