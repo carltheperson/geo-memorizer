@@ -1,5 +1,6 @@
 <h1 align="center">Geo memorizer</h1>
-<p align="center">A game to help you learn the name, flag, and location of every country</p>
+<p align="center"><b>A game to help you learn the name, flag, and location of every country.</b></p>
+<p align="center"><i>Read the blog post about it <a href="https://carltheperson.com/posts/geo-memorizer/">here</a></i></p>
 
 ![preview](./preview.png)
 
